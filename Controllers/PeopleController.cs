@@ -1,6 +1,4 @@
-
-
-
+using Backend.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +8,13 @@ namespace Backend.Controllers
     [ApiController]
     public class PeopleController : ControllerBase
     {
+        private IPeopleService _peopleService;
+
+        public PeopleController([FromKeyedServices("people2Service")] IPeopleService peopleService)
+        {
+            _peopleService = peopleService;
+        }
+
         [HttpGet("all")]
         public List<People> GetPeople() => Repository.PeopleList;
 
@@ -27,12 +32,10 @@ namespace Backend.Controllers
         [HttpPost]
         public IActionResult Add(People people)
         {
-            if (string.IsNullOrEmpty(people.Name)) return BadRequest("El nombre es requerido");
+            if (!_peopleService.Validate(people)) return BadRequest("El nombre es requerido");
             Repository.PeopleList.Add(people);
             return NoContent();
         }
-
-
     }
 
     public class Repository
