@@ -17,6 +17,7 @@ namespace Backend.Services
         {
             _beerRepository = beerRepository;
             _mapper = mapper;
+            Errors = new List<string>();
         }
 
         public async Task<IEnumerable<BeerDto>> Get()
