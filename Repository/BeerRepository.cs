@@ -28,7 +28,6 @@ namespace Backend.Repository
 
         public void Delete(Beer beer) => _context.Remove(beer);
 
-
         public async Task Save() => await _context.SaveChangesAsync();
     }
 }
